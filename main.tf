@@ -1,9 +1,5 @@
 #------------------------------------------------------------------------------
 # Create the ALB if Requested
-# Requirements: None
-# Variables:
-#       create_alb = true
-#
 #------------------------------------------------------------------------------
 resource "aws_security_group" "this" {
   count       = var.create_alb ? 1 : 0
@@ -14,10 +10,10 @@ resource "aws_security_group" "this" {
   dynamic "ingress" {
     for_each = var.security_group_ingress
     content {
-      from_port   = lookup(ingress.value, "from_port", null )
-      protocol    = lookup(ingress.value, "protocol", null )
-      to_port     = lookup(ingress.value, "to_port", null )
-      cidr_blocks = lookup(ingress.value, "cidr_blocks", null )
+      from_port   = lookup(ingress.value, "from_port", null)
+      protocol    = lookup(ingress.value, "protocol", null)
+      to_port     = lookup(ingress.value, "to_port", null)
+      cidr_blocks = lookup(ingress.value, "cidr_blocks", null)
     }
   }
   egress {
@@ -47,9 +43,9 @@ resource "aws_lb" "this" {
   dynamic "access_logs" {
     for_each = var.access_logs
     content {
-      bucket  = lookup(access_logs.value, "bucket", null )
-      prefix  = lookup(access_logs.value, "prefix", null )
-      enabled = lookup(access_logs.value, "true", null )
+      bucket  = lookup(access_logs.value, "bucket", null)
+      prefix  = lookup(access_logs.value, "prefix", null)
+      enabled = lookup(access_logs.value, "true", null)
     }
   }
   tags = {
@@ -81,8 +77,8 @@ resource "aws_acm_certificate_validation" "default_validation" {
   validation_record_fqdns = [aws_route53_record.default_cert_validation_record[0].fqdn]
 }
 
-resource "aws_lb_listener" "https_alb_listener" {
-  count = var.create_https_listener ? 1 : 0
+resource "aws_lb_listener" "https" {
+  count             = var.create_https_listener ? 1 : 0
   load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
   port              = var.https_listener_port
   protocol          = "HTTPS"
@@ -90,12 +86,12 @@ resource "aws_lb_listener" "https_alb_listener" {
   certificate_arn   = aws_acm_certificate.default_cert[0].arn
 
   default_action {
-    type             = "fixed-response"
+    type = "fixed-response"
 
     fixed_response {
       content_type = var.fixed_response_content_type
       message_body = var.fixed_response_message_body
-      status_code =  var.fixed_response_status_code
+      status_code  = var.fixed_response_status_code
     }
   }
 }
@@ -146,8 +142,8 @@ resource "aws_lb_listener" "redirect_http_to_https" {
 #  Create Listener Rules
 #------------------------------------------------------------------------------
 resource "aws_acm_certificate" "this_cert" {
-  count             = var.create_listener_rule ? 1 : 0
-  domain_name       = join(".", [var.service_name, var.tld])
+  count       = var.create_listener_rule ? 1 : 0
+  domain_name = join(".", [var.service_name, var.tld])
   //domain_name       = "${var.service_name}.${var.tld}"
   validation_method = "DNS"
 }
@@ -167,8 +163,8 @@ resource "aws_acm_certificate_validation" "this_validation" {
   validation_record_fqdns = [aws_route53_record.this_cert_validation_record[0].fqdn]
 }
 
-resource "aws_lb_target_group" "https_target_group" {
-  count   = var.create_listener_rule ? 1 : 0
+resource "aws_lb_target_group" "this" {
+  count    = var.create_listener_rule ? 1 : 0
   name     = var.service_name
   port     = var.listener_rule_port
   protocol = var.listener_rule_protocol
@@ -177,11 +173,11 @@ resource "aws_lb_target_group" "https_target_group" {
   dynamic "health_check" {
     for_each = var.health_check
     content {
-      interval          = lookup(health_check.value, "interval", null )
-      path              = lookup(health_check.value, "path", null )
-      timeout           = lookup(health_check.value, "timeout", null )
-      healthy_threshold = lookup(health_check.value, "healthy_threshold", null )
-      port              = lookup(health_check.value, "port", null )
+      interval          = lookup(health_check.value, "interval", null)
+      path              = lookup(health_check.value, "path", null)
+      timeout           = lookup(health_check.value, "timeout", null)
+      healthy_threshold = lookup(health_check.value, "healthy_threshold", null)
+      port              = lookup(health_check.value, "port", null)
     }
   }
   tags = merge(
@@ -192,22 +188,22 @@ resource "aws_lb_target_group" "https_target_group" {
   )
 }
 
-resource "aws_lb_listener_rule" "https_alb_listener_rule" {
+resource "aws_lb_listener_rule" "this" {
   count        = var.create_listener_rule ? 1 : 0
-  listener_arn = var.create_https_listener ? aws_lb_listener.https_alb_listener[0].arn : var.listener_arn
+  listener_arn = var.create_https_listener ? aws_lb_listener.https[0].arn : var.listener_arn
   priority     = 1
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.https_target_group[0].arn
+    target_group_arn = aws_lb_target_group.this[0].arn
   }
   condition {
     field = "host-header"
     values = [
-    aws_route53_record.alb_dns[0].fqdn]
+    aws_route53_record.this[0].fqdn]
   }
 }
 
-resource "aws_route53_record" "alb_dns" {
+resource "aws_route53_record" "this" {
   count   = var.create_listener_rule ? 1 : 0
   name    = var.service_name
   type    = "A"
@@ -222,32 +218,5 @@ resource "aws_route53_record" "alb_dns" {
 resource "aws_lb_listener_certificate" "this" {
   count           = var.create_listener_rule ? 1 : 0
   certificate_arn = aws_acm_certificate.this_cert[0].arn
-  listener_arn    = var.create_https_listener ? aws_lb_listener.https_alb_listener[0].arn : var.listener_arn
+  listener_arn    = var.create_https_listener ? aws_lb_listener.https[0].arn : var.listener_arn
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

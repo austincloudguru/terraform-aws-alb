@@ -11,14 +11,14 @@ variable "alb_name" {
 }
 
 variable "vpc_id" {
-  description = "VPC ID to deploy the ALB to"
+  description = "The VPC ID"
   type        = string
   default     = ""
 }
 
 variable "security_group_ingress" {
-  description = "List of Security Group Ingresses"
-  type        = list(object({
+  description = "Can be specified multiple times for each ingress rule. "
+  type = list(object({
     from_port   = number
     protocol    = string
     to_port     = number
@@ -34,7 +34,7 @@ variable "security_group_ingress" {
 
 variable "access_logs" {
   description = "An Access Logs block"
-  type        = list(object({
+  type = list(object({
     bucket  = string
     prefix  = string
     enabled = number
@@ -86,8 +86,8 @@ variable "https_listener_port" {
 
 variable "ssl_policy" {
   description = "The name of the SSL Policy for the listener. Required if protocol is HTTPS or TLS."
-  type = string
-  default = "ELBSecurityPolicy-2016-08"
+  type        = string
+  default     = "ELBSecurityPolicy-2016-08"
 }
 
 variable "create_http_listener" {
@@ -116,8 +116,8 @@ variable "tld" {
 
 variable "r53_zone_id" {
   description = "Zone ID for the Route R53 entry"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "fixed_response_content_type" {
@@ -164,7 +164,7 @@ variable "listener_rule_protocol" {
 
 variable "health_check" {
   description = "Listener Rule Health Check"
-  type        = list(object({
+  type = list(object({
     interval          = number
     path              = string
     timeout           = number
@@ -182,19 +182,18 @@ variable "health_check" {
 
 variable "load_balancer_dns_name" {
   description = "Load balancer DNS name"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "load_balancer_zone_id" {
   description = "Load balancer zone_id"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "listener_arn" {
   description = "Listener Arn"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
-
