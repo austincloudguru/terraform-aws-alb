@@ -1,5 +1,9 @@
 #------------------------------------------------------------------------------
 # Create the ALB if Requested
+# Requirements: None
+# Variables:
+#       create_alb = true
+#
 #------------------------------------------------------------------------------
 resource "aws_security_group" "this" {
   count       = var.create_alb ? 1 : 0
@@ -211,7 +215,7 @@ resource "aws_route53_record" "alb_dns" {
   alias {
     evaluate_target_health = false
     name                   = var.create_alb ? aws_lb.this[0].dns_name : var.load_balancer_dns_name
-    zone_id                = var.r53_zone_id
+    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.load_balancer_zone_id
   }
 }
 

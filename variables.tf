@@ -186,8 +186,15 @@ variable "load_balancer_dns_name" {
   default = ""
 }
 
+variable "load_balancer_zone_id" {
+  description = "Load balancer zone_id"
+  type = string
+  default = ""
+}
+
 variable "listener_arn" {
   description = "Listener Arn"
   type = string
   default = ""
 }
+
