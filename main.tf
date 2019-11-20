@@ -158,7 +158,7 @@ resource "aws_route53_record" "this_cert_validation_record" {
 }
 
 resource "aws_acm_certificate_validation" "this_validation" {
-  count             = var.create_listener_rule ? 1 : 0
+  count                   = var.create_listener_rule ? 1 : 0
   certificate_arn         = aws_acm_certificate.this_cert[0].arn
   validation_record_fqdns = [aws_route53_record.this_cert_validation_record[0].fqdn]
 }
@@ -182,15 +182,15 @@ resource "aws_lb_target_group" "https_target_group" {
   }
   tags = merge(
     {
-      "Name" = "${var.service_name}-ecs-tg"
+      "Name" = var.service_name
     },
     var.tags
   )
 }
 
 resource "aws_lb_listener_rule" "https_alb_listener_rule" {
-  count             = var.create_listener_rule ? 1 : 0
-  listener_arn = aws_lb_listener.https_alb_listener[0].arn
+  count        = var.create_listener_rule ? 1 : 0
+  listener_arn = var.create_https_listener ? aws_lb_listener.https_alb_listener[0].arn : var.listener_arn
   priority     = 1
   action {
     type             = "forward"
@@ -218,7 +218,7 @@ resource "aws_route53_record" "alb_dns" {
 resource "aws_lb_listener_certificate" "this" {
   count           = var.create_listener_rule ? 1 : 0
   certificate_arn = aws_acm_certificate.this_cert[0].arn
-  listener_arn    = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
+  listener_arn    = var.create_https_listener ? aws_lb_listener.https_alb_listener[0].arn : var.listener_arn
 }
 
 

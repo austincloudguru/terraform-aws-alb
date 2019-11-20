@@ -185,3 +185,9 @@ variable "load_balancer_dns_name" {
   type = string
   default = ""
 }
+
+variable "listener_arn" {
+  description = "Listener Arn"
+  type = string
+  default = ""
+}
