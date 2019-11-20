@@ -41,7 +41,7 @@ resource "aws_lb" "this" {
   ]
   subnets = var.subnets
   dynamic "access_logs" {
-    for_each = "var.access_logs"
+    for_each = var.access_logs
     content {
       bucket  = lookup(access_logs.value, "bucket", null )
       prefix  = lookup(access_logs.value, "prefix", null )
