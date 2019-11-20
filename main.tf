@@ -204,7 +204,7 @@ resource "aws_lb_listener_rule" "https_alb_listener_rule" {
 }
 
 resource "aws_route53_record" "alb_dns" {
-  count             = var.create_listener_rule ? 1 : 0
+  count   = var.create_listener_rule ? 1 : 0
   name    = var.service_name
   type    = "A"
   zone_id = var.r53_zone_id
@@ -216,8 +216,9 @@ resource "aws_route53_record" "alb_dns" {
 }
 
 resource "aws_lb_listener_certificate" "this" {
+  count           = var.create_listener_rule ? 1 : 0
   certificate_arn = aws_acm_certificate.this_cert[0].arn
-  listener_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
+  listener_arn    = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
 }
 
 
