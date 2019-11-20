@@ -39,7 +39,7 @@ variable "access_logs" {
     prefix  = string
     enabled = number
   })
-  default = {}
+  default = null
 }
 
 variable "tags" {
