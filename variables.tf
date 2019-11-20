@@ -96,6 +96,12 @@ variable "create_http_listener" {
   default     = false
 }
 
+variable "create_redirect_http_to_https_listener" {
+  description = "Controls if a listener should be created"
+  type        = bool
+  default     = false
+}
+
 variable "http_listener_port" {
   description = "The port on which the load balancer is listening."
   type        = number

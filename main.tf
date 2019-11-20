@@ -95,3 +95,45 @@ resource "aws_lb_listener" "https_alb_listener" {
     }
   }
 }
+
+#------------------------------------------------------------------------------
+# Create the HTTP listener
+#------------------------------------------------------------------------------
+resource "aws_lb_listener" "http" {
+  count = var.create_http_listener ? 1 : 0
+
+  load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
+  port              = var.http_listener_port
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "${var.fixed_response_content_type}"
+      message_body = "${var.fixed_response_message_body}"
+      status_code  = "${var.fixed_response_status_code}"
+    }
+  }
+}
+
+#------------------------------------------------------------------------------
+# Create HTTP to HTTPS Redirect
+#------------------------------------------------------------------------------
+resource "aws_lb_listener" "redirect_http_to_https" {
+  count = "${local.create_redirect_http_to_https_listener ? 1 : 0}"
+
+  load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
+  port              = var.http_listener_port
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "${var.https_port}"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
