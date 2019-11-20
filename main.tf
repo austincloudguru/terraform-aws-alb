@@ -52,3 +52,46 @@ resource "aws_lb" "this" {
     Name = var.alb_name
   }
 }
+
+#------------------------------------------------------------------------------
+# Create the HTTPS listener if requested
+#------------------------------------------------------------------------------
+resource "aws_acm_certificate" "acm_cert" {
+  count             = var.create_https_listener ? 1 : 0
+  domain_name       = "*.${var.tld}"
+  validation_method = "DNS"
+}
+
+resource "aws_route53_record" "cert_validation_record" {
+  count   = var.create_https_listener ? 1 : 0
+  name    = aws_acm_certificate.acm_cert[0].domain_validation_options.0.resource_record_name
+  type    = aws_acm_certificate.acm_cert[0].domain_validation_options.0.resource_record_type
+  zone_id = var.r53_zone_id
+  records = [aws_acm_certificate.acm_cert[0].domain_validation_options.0.resource_record_value]
+  ttl     = 60
+}
+
+resource "aws_acm_certificate_validation" "default" {
+  count                   = var.create_https_listener ? 1 : 0
+  certificate_arn         = aws_acm_certificate.acm_cert[0].arn
+  validation_record_fqdns = [aws_route53_record.cert_validation_record[0].fqdn]
+}
+
+resource "aws_lb_listener" "https_alb_listener" {
+  count = var.create_https_listener ? 1 : 0
+  load_balancer_arn = var.create_alb ? aws_lb.this.arn : var.load_balancer_arn
+  port              = var.https_listener_port
+  protocol          = "HTTPS"
+  ssl_policy        = var.ssl_policy
+  certificate_arn   = aws_acm_certificate.acm_cert.arn
+
+  default_action {
+    type             = "fixed-response"
+
+    fixed_response {
+      content_type = lookup(var.fixed_response.value, "content_type", "text/plain" )
+      message_body = lookup(var.fixed_response.value, "message_body", "404 Not Found" )
+      status_code =  lookup(var.fixed_response.value, "status_code", "404" )
+    }
+  }
+}

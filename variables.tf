@@ -65,3 +65,65 @@ variable "subnets" {
   type        = list(string)
   default     = []
 }
+
+variable "create_https_listener" {
+  description = "Controls if a listener should be created"
+  type        = bool
+  default     = false
+}
+
+variable "load_balancer_arn" {
+  description = "The ARN of the load balancer"
+  type        = string
+  default     = ""
+}
+
+variable "https_listener_port" {
+  description = "The port on which the load balancer is listening."
+  type        = number
+  default     = 443
+}
+
+variable "ssl_policy" {
+  description = "The name of the SSL Policy for the listener. Required if protocol is HTTPS or TLS."
+  type = string
+  default = "ELBSecurityPolicy-2016-08"
+}
+
+variable "create_http_listener" {
+  description = "Controls if a listener should be created"
+  type        = bool
+  default     = false
+}
+
+variable "http_listener_port" {
+  description = "The port on which the load balancer is listening."
+  type        = number
+  default     = 80
+}
+
+variable "tld" {
+  description = "Top Level Domain to use"
+  type        = string
+  default     = ""
+}
+
+variable "fixed_response" {
+  description = "An Access Logs block"
+  type        = list(object({
+    content_type  = string
+    message_body  = string
+    status_code = number
+  }))
+  default = [{
+    content_type = "text/plain"
+    message_body = "404 Not Found"
+    status_code  = "404"
+  }]
+}
+
+variable "r53_zone_id" {
+  description = "Zone ID for the Route R53 entry"
+  type = string
+  default = ""
+}
