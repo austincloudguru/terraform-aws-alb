@@ -79,7 +79,7 @@ resource "aws_acm_certificate_validation" "default" {
 
 resource "aws_lb_listener" "https_alb_listener" {
   count = var.create_https_listener ? 1 : 0
-  load_balancer_arn = var.create_alb ? aws_lb.this.arn : var.load_balancer_arn
+  load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
   port              = var.https_listener_port
   protocol          = "HTTPS"
   ssl_policy        = var.ssl_policy
