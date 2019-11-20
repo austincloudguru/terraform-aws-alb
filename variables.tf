@@ -24,6 +24,12 @@ variable "security_group_ingress" {
     to_port     = number
     cidr_blocks = list(string)
   }))
+  default = [{
+    from_port   = 443
+    protocol    = "tcp"
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }]
 }
 
 variable "access_logs" {
