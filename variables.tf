@@ -108,22 +108,26 @@ variable "tld" {
   default     = ""
 }
 
-variable "fixed_response" {
-  description = "An Access Logs block"
-  type        = list(object({
-    content_type  = string
-    message_body  = string
-    status_code = number
-  }))
-  default = [{
-    content_type = "text/plain"
-    message_body = "404 Not Found"
-    status_code  = "404"
-  }]
-}
-
 variable "r53_zone_id" {
   description = "Zone ID for the Route R53 entry"
   type = string
   default = ""
+}
+
+variable "fixed_response_content_type" {
+  default     = "text/plain"
+  type        = "string"
+  description = "The content type. Valid values are text/plain, text/css, text/html, application/javascript and application/json."
+}
+
+variable "fixed_response_message_body" {
+  default     = "404 Not Found"
+  type        = "string"
+  description = "The message body."
+}
+
+variable "fixed_response_status_code" {
+  default     = "404"
+  type        = "string"
+  description = "The HTTP response code. Valid values are 2XX, 4XX, or 5XX."
 }

@@ -89,9 +89,9 @@ resource "aws_lb_listener" "https_alb_listener" {
     type             = "fixed-response"
 
     fixed_response {
-      content_type = lookup(var.fixed_response.value, "content_type", "text/plain" )
-      message_body = lookup(var.fixed_response.value, "message_body", "404 Not Found" )
-      status_code =  lookup(var.fixed_response.value, "status_code", "404" )
+      content_type = var.fixed_response_content_type
+      message_body = var.fixed_response_message_body
+      status_code =  var.fixed_response_status_code
     }
   }
 }
