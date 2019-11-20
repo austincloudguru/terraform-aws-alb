@@ -37,7 +37,7 @@ resource "aws_lb" "this" {
   internal                   = var.alb_internal
   enable_deletion_protection = var.enable_deletion_protection
   security_groups = [
-    aws_security_group.this.id
+    aws_security_group.this[0].id
   ]
   subnets = var.subnets
   dynamic "access_logs" {
