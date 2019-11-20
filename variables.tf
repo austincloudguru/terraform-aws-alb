@@ -34,12 +34,12 @@ variable "security_group_ingress" {
 
 variable "access_logs" {
   description = "An Access Logs block"
-  type        = object({
+  type        = list(object({
     bucket  = string
     prefix  = string
     enabled = number
-  })
-  default = null
+  }))
+  default = []
 }
 
 variable "tags" {
