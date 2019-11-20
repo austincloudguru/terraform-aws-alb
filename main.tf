@@ -216,7 +216,7 @@ resource "aws_route53_record" "alb_dns" {
 }
 
 resource "aws_lb_listener_certificate" "this" {
-  certificate_arn = aws_acm_certificate.this_cert.arn
+  certificate_arn = aws_acm_certificate.this_cert[0].arn
   listener_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
 }
 
