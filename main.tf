@@ -121,7 +121,7 @@ resource "aws_lb_listener" "http" {
 # Create HTTP to HTTPS Redirect
 #------------------------------------------------------------------------------
 resource "aws_lb_listener" "redirect_http_to_https" {
-  count = "${local.create_redirect_http_to_https_listener ? 1 : 0}"
+  count = var.create_redirect_http_to_https_listener ? 1 : 0
 
   load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
   port              = var.http_listener_port
@@ -131,7 +131,7 @@ resource "aws_lb_listener" "redirect_http_to_https" {
     type = "redirect"
 
     redirect {
-      port        = "${var.https_port}"
+      port        = var.https_listener_port
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
