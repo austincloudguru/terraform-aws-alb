@@ -56,25 +56,25 @@ resource "aws_lb" "this" {
 #------------------------------------------------------------------------------
 # Create the HTTPS listener if requested
 #------------------------------------------------------------------------------
-resource "aws_acm_certificate" "acm_cert" {
+resource "aws_acm_certificate" "default_cert" {
   count             = var.create_https_listener ? 1 : 0
   domain_name       = "*.${var.tld}"
   validation_method = "DNS"
 }
 
-resource "aws_route53_record" "cert_validation_record" {
+resource "aws_route53_record" "default_cert_validation_record" {
   count   = var.create_https_listener ? 1 : 0
-  name    = aws_acm_certificate.acm_cert[0].domain_validation_options.0.resource_record_name
-  type    = aws_acm_certificate.acm_cert[0].domain_validation_options.0.resource_record_type
+  name    = aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_name
+  type    = aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_type
   zone_id = var.r53_zone_id
-  records = [aws_acm_certificate.acm_cert[0].domain_validation_options.0.resource_record_value]
+  records = [aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_value]
   ttl     = 60
 }
 
-resource "aws_acm_certificate_validation" "default" {
+resource "aws_acm_certificate_validation" "default_validation" {
   count                   = var.create_https_listener ? 1 : 0
-  certificate_arn         = aws_acm_certificate.acm_cert[0].arn
-  validation_record_fqdns = [aws_route53_record.cert_validation_record[0].fqdn]
+  certificate_arn         = aws_acm_certificate.default_cert[0].arn
+  validation_record_fqdns = [aws_route53_record.default_cert_validation_record[0].fqdn]
 }
 
 resource "aws_lb_listener" "https_alb_listener" {
@@ -83,7 +83,7 @@ resource "aws_lb_listener" "https_alb_listener" {
   port              = var.https_listener_port
   protocol          = "HTTPS"
   ssl_policy        = var.ssl_policy
-  certificate_arn   = aws_acm_certificate.acm_cert[0].arn
+  certificate_arn   = aws_acm_certificate.default_cert[0].arn
 
   default_action {
     type             = "fixed-response"
@@ -137,3 +137,112 @@ resource "aws_lb_listener" "redirect_http_to_https" {
     }
   }
 }
+
+#------------------------------------------------------------------------------
+#  Create Listener Rules
+#------------------------------------------------------------------------------
+resource "aws_acm_certificate" "this_cert" {
+  count             = var.create_listener_rule ? 1 : 0
+  domain_name       = join(".", [var.service_name, var.tld])
+  //domain_name       = "${var.service_name}.${var.tld}"
+  validation_method = "DNS"
+}
+
+resource "aws_route53_record" "this_cert_validation_record" {
+  count   = var.create_listener_rule ? 1 : 0
+  name    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_name
+  type    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_type
+  zone_id = var.r53_zone_id
+  records = [aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_value]
+  ttl     = 60
+}
+
+resource "aws_acm_certificate_validation" "this_validation" {
+  count             = var.create_listener_rule ? 1 : 0
+  certificate_arn         = aws_acm_certificate.this_cert[0].arn
+  validation_record_fqdns = [aws_route53_record.this_cert_validation_record[0].fqdn]
+}
+
+resource "aws_lb_target_group" "https_target_group" {
+  count   = var.create_listener_rule ? 1 : 0
+  name     = var.service_name
+  port     = var.listener_rule_port
+  protocol = var.listener_rule_protocol
+  vpc_id   = var.vpc_id
+
+  dynamic "health_check" {
+    for_each = var.health_check
+    content {
+      interval          = lookup(health_check.value, "interval", null )
+      path              = lookup(health_check.value, "path", null )
+      timeout           = lookup(health_check.value, "timeout", null )
+      healthy_threshold = lookup(health_check.value, "healthy_threshold", null )
+      port              = lookup(health_check.value, "port", null )
+    }
+  }
+  tags = merge(
+    {
+      "Name" = "${var.service_name}-ecs-tg"
+    },
+    var.tags
+  )
+}
+
+resource "aws_lb_listener_rule" "https_alb_listener_rule" {
+  count             = var.create_listener_rule ? 1 : 0
+  listener_arn = aws_lb_listener.https_alb_listener[0].arn
+  priority     = 1
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.https_target_group[0].arn
+  }
+  condition {
+    field = "host-header"
+    values = [
+    aws_route53_record.alb_dns[0].fqdn]
+  }
+}
+
+resource "aws_route53_record" "alb_dns" {
+  count             = var.create_listener_rule ? 1 : 0
+  name    = var.service_name
+  type    = "A"
+  zone_id = var.r53_zone_id
+  alias {
+    evaluate_target_health = false
+    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.load_balancer_dns_name
+    zone_id                = var.r53_zone_id
+  }
+}
+
+resource "aws_lb_listener_certificate" "this" {
+  certificate_arn = aws_acm_certificate.this_cert.arn
+  listener_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

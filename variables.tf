@@ -137,3 +137,51 @@ variable "fixed_response_status_code" {
   type        = "string"
   description = "The HTTP response code. Valid values are 2XX, 4XX, or 5XX."
 }
+
+variable "create_listener_rule" {
+  description = "Controls if a listener rule should be created"
+  type        = bool
+  default     = false
+}
+
+variable "service_name" {
+  description = "Name of the service being deployed (used for DNS and Listener Rules)"
+  type        = string
+  default     = "my-app"
+}
+
+variable "listener_rule_port" {
+  description = "The port on which the listener is on."
+  type        = number
+  default     = 80
+}
+
+variable "listener_rule_protocol" {
+  description = "The protocol the rule uses"
+  type        = string
+  default     = "HTTP"
+}
+
+variable "health_check" {
+  description = "Listener Rule Health Check"
+  type        = list(object({
+    interval          = number
+    path              = string
+    timeout           = number
+    healthy_threshold = number
+    port              = number
+  }))
+  default = [{
+    interval          = 60
+    path              = "/"
+    timeout           = 5
+    healthy_threshold = 2
+    port              = 80
+  }]
+}
+
+variable "load_balancer_dns_name" {
+  description = "Load balancer DNS name"
+  type = string
+  default = ""
+}
