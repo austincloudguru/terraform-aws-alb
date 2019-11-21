@@ -114,8 +114,20 @@ variable "tld" {
   default     = ""
 }
 
-variable "r53_zone_id" {
-  description = "Zone ID for the Route R53 entry"
+variable "external_zone_id" {
+  description = "External zone ID for the Route R53 entry"
+  type        = string
+  default     = ""
+}
+
+variable "create_internal_r53" {
+  description = "Create an internal Route54 Entry"
+  type        = bool
+  default     = false
+}
+
+variable "internal_zone_id" {
+  description = "Internal zone ID for the Route R53 entry"
   type        = string
   default     = ""
 }

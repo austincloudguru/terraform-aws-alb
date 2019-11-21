@@ -76,6 +76,9 @@ module "jenkins-alb" {
 | create_redirect_http_to_https_listener | Controls if a listener should be created | bool |  false | no |
 | http_listener_port | The port on which the load balancer is listening. | number |  80 | no |
 | tld | Top Level Domain to use | string |  "" | no |                                           
+| external_zone_id | External zone ID for the Route R53 entry | string |  "" | no |
+| create_internal_r53 | Create an internal Route54 Entry | bool | false | no |
+| internal_zone_id | Internal zone ID for the Route R53 entry | string |  "" | no |
 | r53_zone_id | Zone ID for the Route R53 entry | string |  "" | no |
 | fixed_response_content_type | The content type. Valid values are text/plain, text/css, text/html, application/javascript and application/json. | "string" |  "text/plain" | no |              
 | fixed_response_message_body | The message body. | "string" |  "404 Not Found" | no |          
