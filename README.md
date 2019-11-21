@@ -6,7 +6,7 @@ Terraform module for creating and managing Application Load Balancers, Listeners
 ```hcl
 module "application-alb" {
   source                                 = "AustinCloudGuru/alb/aws"
-  version                                = "0.2.1"
+  version                                = "0.2.3"
   source                                 = "github.com/austincloudguru/terraform-aws-alb"
   create_alb                             = true
   alb_name                               = "test-alb"
@@ -35,7 +35,7 @@ module "application-alb" {
 ```hcl
 module "jenkins-alb" {
   source                 = "AustinCloudGuru/alb/aws"
-  version                = "0.2.1"
+  version                = "0.2.3"
   create_listener_rule   = true
   service_name           = "jenkins"
   r53_zone_id            = "Z1111111111111"
