@@ -210,8 +210,8 @@ resource "aws_route53_record" "external" {
   zone_id = var.external_zone_id
   alias {
     evaluate_target_health = false
-    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.load_balancer_dns_name
-    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.load_balancer_zone_id
+    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.external_load_balancer_dns_name
+    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.external_load_balancer_zone_id
   }
 }
 
@@ -222,8 +222,8 @@ resource "aws_route53_record" "internal" {
   zone_id = var.internal_zone_id
   alias {
     evaluate_target_health = false
-    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.load_balancer_dns_name
-    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.load_balancer_zone_id
+    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.internal_load_balancer_dns_name
+    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.internal_load_balancer_zone_id
   }
 }
 

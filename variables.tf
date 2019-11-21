@@ -192,13 +192,25 @@ variable "health_check" {
   }]
 }
 
-variable "load_balancer_dns_name" {
+variable "external_load_balancer_dns_name" {
   description = "Load balancer DNS name"
   type        = string
   default     = ""
 }
 
-variable "load_balancer_zone_id" {
+variable "external_load_balancer_zone_id" {
+  description = "Load balancer zone_id"
+  type        = string
+  default     = ""
+}
+
+variable "internal_load_balancer_dns_name" {
+  description = "Load balancer DNS name"
+  type        = string
+  default     = ""
+}
+
+variable "internal_load_balancer_zone_id" {
   description = "Load balancer zone_id"
   type        = string
   default     = ""
