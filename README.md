@@ -1,5 +1,5 @@
 # terraform-aws-alb
-Terraform module for creating and managing Application Load Balancers, Listeners, and Listener Rules.
+Terraform module for creating and managing Application Load Balancers, Listeners, and Listener Rules.  It can also create internal and external Route 53 addresses for instances when you may need them, like when using an [NLB->ALB configuration](https://aws.amazon.com/blogs/networking-and-content-delivery/using-static-ip-addresses-for-application-load-balancers/)
 
 # Usage
 ## Create an ALB with HTTP Redirect and an HTTPS listener that defaults to 404.
@@ -51,8 +51,11 @@ module "jenkins-alb" {
     port              = 80
   }]
   vpc_id                 = "vpc-11111111111111111"
-  external_load_balancer_dns_name = "internal-test-alb-111111111.us-east-1.elb.amazonaws.com"
+  external_load_balancer_dns_name = "test-nlb-111111111111111.elb.us-east-1.amazonaws.com"
   external_load_balancer_zone_id  = "Z2222222222222"
+  # Optionally, Create the internal Route 53 Address as well
+  internal_load_balancer_dns_name = "internal-test-alb-111111111.us-east-1.elb.amazonaws.com"
+  internal_load_balancer_zone_id  = "Z3333333333333"
 }
 ```
 
