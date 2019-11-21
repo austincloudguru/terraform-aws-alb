@@ -58,7 +58,7 @@ resource "aws_lb" "this" {
 #------------------------------------------------------------------------------
 resource "aws_acm_certificate" "default_cert" {
   count             = var.create_https_listener ? 1 : 0
-  domain_name       = "*.${var.tld}"
+  domain_name       = "${var.alb_name}.${var.tld}"
   validation_method = "DNS"
 }
 
