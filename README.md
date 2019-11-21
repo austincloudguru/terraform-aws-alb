@@ -51,8 +51,8 @@ module "jenkins-alb" {
     port              = 80
   }]
   vpc_id                 = "vpc-11111111111111111"
-  load_balancer_dns_name = "internal-test-alb-111111111.us-east-1.elb.amazonaws.com"
-  load_balancer_zone_id  = "Z2222222222222"
+  external_load_balancer_dns_name = "internal-test-alb-111111111.us-east-1.elb.amazonaws.com"
+  external_load_balancer_zone_id  = "Z2222222222222"
 }
 ```
 
@@ -88,8 +88,10 @@ module "jenkins-alb" {
 | listener_rule_port | The port on which the listener is on. | number |  80 | no |
 | listener_rule_protocol | The protocol the rule uses | string |  "HTTP" | no |                 
 | health_check | Listener Rule Health Check | list(object({ interval = number path = string timeout = number healthy_threshold = number port  = number })) | [{ interval = 60 path = "/" timeout = 5 healthy_threshold = 2 port = 80 }] | no | 
-| load_balancer_dns_name | Load balancer DNS name | string |  "" | no |                         
-| load_balancer_zone_id | Load balancer zone_id | string |  "" | no |                           
+| external_load_balancer_dns_name | Load balancer DNS name for the external DNS record | string |  "" | no |                         
+| external_load_balancer_zone_id | Load balancer zone_id for the external DNS record | string |  "" | no |
+| internal_load_balancer_dns_name | Load balancer DNS name for the internal DNS record | string |  "" | no |                         
+| internal_load_balancer_zone_id | Load balancer zone_id for the internal DNS record| string |  "" | no |                           
 | listener_arn | Listener Arn | string |  "" | no | 
 
 

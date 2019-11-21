@@ -193,25 +193,25 @@ variable "health_check" {
 }
 
 variable "external_load_balancer_dns_name" {
-  description = "Load balancer DNS name"
+  description = "Load balancer DNS name for the external DNS record"
   type        = string
   default     = ""
 }
 
 variable "external_load_balancer_zone_id" {
-  description = "Load balancer zone_id"
+  description = "Load balancer zone_id for the external DNS record"
   type        = string
   default     = ""
 }
 
 variable "internal_load_balancer_dns_name" {
-  description = "Load balancer DNS name"
+  description = "Load balancer DNS name for the internal DNS record"
   type        = string
   default     = ""
 }
 
 variable "internal_load_balancer_zone_id" {
-  description = "Load balancer zone_id"
+  description = "Load balancer zone_id for the internal DNS record"
   type        = string
   default     = ""
 }
