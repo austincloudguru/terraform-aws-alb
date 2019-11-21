@@ -121,21 +121,21 @@ variable "r53_zone_id" {
 }
 
 variable "fixed_response_content_type" {
-  default     = "text/plain"
-  type        = "string"
   description = "The content type. Valid values are text/plain, text/css, text/html, application/javascript and application/json."
+  type        = "string"
+  default     = "text/plain"
 }
 
 variable "fixed_response_message_body" {
-  default     = "404 Not Found"
-  type        = "string"
   description = "The message body."
+  type        = "string"
+  default     = "404 Not Found"
 }
 
 variable "fixed_response_status_code" {
-  default     = "404"
-  type        = "string"
   description = "The HTTP response code. Valid values are 2XX, 4XX, or 5XX."
+  type        = "string"
+  default     = "404"
 }
 
 variable "create_listener_rule" {
