@@ -66,7 +66,7 @@ resource "aws_route53_record" "default_cert_validation_record" {
   count   = var.create_https_listener ? 1 : 0
   name    = aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_name
   type    = aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_type
-  zone_id = var.r53_zone_id
+  zone_id = var.external_zone_id
   records = [aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_value]
   ttl     = 60
 }
@@ -152,7 +152,7 @@ resource "aws_route53_record" "this_cert_validation_record" {
   count   = var.create_listener_rule ? 1 : 0
   name    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_name
   type    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_type
-  zone_id = var.r53_zone_id
+  zone_id = var.external_zone_id
   records = [aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_value]
   ttl     = 60
 }
@@ -199,19 +199,31 @@ resource "aws_lb_listener_rule" "this" {
   condition {
     field = "host-header"
     values = [
-    aws_route53_record.this[0].fqdn]
+    aws_route53_record.external[0].fqdn]
   }
 }
 
-resource "aws_route53_record" "this" {
+resource "aws_route53_record" "external" {
   count   = var.create_listener_rule ? 1 : 0
   name    = var.service_name
   type    = "A"
-  zone_id = var.r53_zone_id
+  zone_id = var.external_zone_id
   alias {
     evaluate_target_health = false
-    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.load_balancer_dns_name
-    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.load_balancer_zone_id
+    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.external_load_balancer_dns_name
+    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.external_load_balancer_zone_id
+  }
+}
+
+resource "aws_route53_record" "internal" {
+  count   = var.create_listener_rule && var.create_internal_r53 ? 1 : 0
+  name    = var.service_name
+  type    = "A"
+  zone_id = var.internal_zone_id
+  alias {
+    evaluate_target_health = false
+    name                   = var.create_alb ? aws_lb.this[0].dns_name : var.internal_load_balancer_dns_name
+    zone_id                = var.create_alb ? aws_lb.this[0].zone_id : var.internal_load_balancer_zone_id
   }
 }
 

@@ -114,28 +114,40 @@ variable "tld" {
   default     = ""
 }
 
-variable "r53_zone_id" {
-  description = "Zone ID for the Route R53 entry"
+variable "external_zone_id" {
+  description = "External zone ID for the Route R53 entry"
+  type        = string
+  default     = ""
+}
+
+variable "create_internal_r53" {
+  description = "Create an internal Route54 Entry"
+  type        = bool
+  default     = false
+}
+
+variable "internal_zone_id" {
+  description = "Internal zone ID for the Route R53 entry"
   type        = string
   default     = ""
 }
 
 variable "fixed_response_content_type" {
-  default     = "text/plain"
-  type        = "string"
   description = "The content type. Valid values are text/plain, text/css, text/html, application/javascript and application/json."
+  type        = "string"
+  default     = "text/plain"
 }
 
 variable "fixed_response_message_body" {
-  default     = "404 Not Found"
-  type        = "string"
   description = "The message body."
+  type        = "string"
+  default     = "404 Not Found"
 }
 
 variable "fixed_response_status_code" {
-  default     = "404"
-  type        = "string"
   description = "The HTTP response code. Valid values are 2XX, 4XX, or 5XX."
+  type        = "string"
+  default     = "404"
 }
 
 variable "create_listener_rule" {
@@ -180,14 +192,26 @@ variable "health_check" {
   }]
 }
 
-variable "load_balancer_dns_name" {
-  description = "Load balancer DNS name"
+variable "external_load_balancer_dns_name" {
+  description = "Load balancer DNS name for the external DNS record"
   type        = string
   default     = ""
 }
 
-variable "load_balancer_zone_id" {
-  description = "Load balancer zone_id"
+variable "external_load_balancer_zone_id" {
+  description = "Load balancer zone_id for the external DNS record"
+  type        = string
+  default     = ""
+}
+
+variable "internal_load_balancer_dns_name" {
+  description = "Load balancer DNS name for the internal DNS record"
+  type        = string
+  default     = ""
+}
+
+variable "internal_load_balancer_zone_id" {
+  description = "Load balancer zone_id for the internal DNS record"
   type        = string
   default     = ""
 }
