@@ -4,7 +4,7 @@
 resource "aws_security_group" "this" {
   count       = var.create_alb ? 1 : 0
   name        = var.alb_name
-  description = "Security Group for $[var.ecs_cluster_name}"
+  description = "Security Group for ${var.alb_name}"
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
