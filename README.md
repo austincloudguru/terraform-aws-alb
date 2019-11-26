@@ -96,6 +96,8 @@ module "jenkins-alb" {
 | internal_load_balancer_dns_name | Load balancer DNS name for the internal DNS record | string |  "" | no |                         
 | internal_load_balancer_zone_id | Load balancer zone_id for the internal DNS record| string |  "" | no |                           
 | listener_arn | Listener Arn | string |  "" | no | 
+| create_ssl_cert | Create SSL Certificate using AWS Certificate Manager | bool | true | no |
+| certificate_arn | Use an existing certificate arn | string | "" | no |
 
 
 ## Outputs
