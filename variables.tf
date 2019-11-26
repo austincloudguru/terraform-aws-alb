@@ -221,3 +221,15 @@ variable "listener_arn" {
   type        = string
   default     = ""
 }
+
+variable "create_ssl_cert" {
+  description = "Create SSL Certificate using AWS Certificate Manager"
+  type        = bool
+  default     = true
+}
+
+variable "certificate_arn" {
+  description = "Use an Existing Certificate Arn"
+  type        = string
+  default     = ""
+}
