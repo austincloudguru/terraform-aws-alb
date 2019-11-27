@@ -191,7 +191,6 @@ resource "aws_lb_target_group" "this" {
 resource "aws_lb_listener_rule" "this" {
   count        = var.create_listener_rule ? 1 : 0
   listener_arn = var.create_https_listener ? aws_lb_listener.https[0].arn : var.listener_arn
-  priority     = 1
   action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.this[0].arn
