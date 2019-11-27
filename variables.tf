@@ -182,6 +182,7 @@ variable "health_check" {
     timeout           = number
     healthy_threshold = number
     port              = number
+    protocol          = string
   }))
   default = [{
     interval          = 60
@@ -189,6 +190,7 @@ variable "health_check" {
     timeout           = 5
     healthy_threshold = 2
     port              = 80
+    protocol          = "HTTP"
   }]
 }
 
