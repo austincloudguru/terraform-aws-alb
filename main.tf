@@ -35,6 +35,7 @@ resource "aws_lb" "this" {
   name                       = var.alb_name
   load_balancer_type         = "application"
   internal                   = var.alb_internal
+  idle_timeout               = var.idle_timeout
   enable_deletion_protection = var.enable_deletion_protection
   security_groups = [
     aws_security_group.this[0].id

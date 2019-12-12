@@ -235,3 +235,8 @@ variable "certificate_arn" {
   type        = string
   default     = ""
 }
+variable "idle_timeout" {
+  description = "The time in seconds that the connection is allowed to be idle. "
+  type        = number
+  default     = 60
+}
