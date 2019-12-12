@@ -228,6 +228,7 @@ resource "aws_route53_record" "internal" {
 }
 
 resource "aws_lb_listener_certificate" "this" {
+  depends_on = [aws_acm_certificate_validation.this_validation]
   count           = var.create_listener_rule ? 1 : 0
   certificate_arn = var.create_ssl_cert ? aws_acm_certificate.this_cert[0].arn : var.certificate_arn
   listener_arn    = var.create_https_listener ? aws_lb_listener.https[0].arn : var.listener_arn
