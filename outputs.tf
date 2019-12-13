@@ -122,3 +122,8 @@ output "alb_listener_rule_arn" {
   value       = "${join("", aws_lb_listener_rule.this.*.arn)}"
   description = "The ARN of the HTTPS rule (matches id)"
 }
+
+output "external_fqdn" {
+  value = join("", aws_route53_record.external.fqdn)
+  description = "The FQDN created for the external record"
+}
