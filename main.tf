@@ -200,7 +200,8 @@ resource "aws_lb_listener_rule" "this" {
   condition {
     field = "host-header"
     values = [
-    aws_route53_record.external[0].fqdn]
+    var.create_external_r53 ? aws_route53_record.external[0].fqdn : var.external_fqdn
+    ]
   }
   dynamic "condition" {
     for_each = var.condition
@@ -212,7 +213,7 @@ resource "aws_lb_listener_rule" "this" {
 }
 
 resource "aws_route53_record" "external" {
-  count   = var.create_listener_rule ? 1 : 0
+  count   = var.create_listener_rule && var.create_external_r53 ? 1 : 0
   name    = var.service_name
   type    = "A"
   zone_id = var.external_zone_id

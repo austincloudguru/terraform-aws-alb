@@ -126,6 +126,18 @@ variable "create_internal_r53" {
   default     = false
 }
 
+variable "create_external_r53" {
+  description = "Create an external Route53 Entry"
+  type        = bool
+  default     = true
+}
+
+variable "external_fqdn" {
+  description = "The FQDN if you are not creating a Route 53 Record"
+  type        = string
+  default     = ""
+}
+
 variable "internal_zone_id" {
   description = "Internal zone ID for the Route R53 entry"
   type        = string
