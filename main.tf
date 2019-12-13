@@ -170,6 +170,9 @@ resource "aws_lb_target_group" "this" {
   port     = var.listener_rule_port
   protocol = var.listener_rule_protocol
   vpc_id   = var.vpc_id
+  stickiness {
+    type = "lb_cookie"
+  }
 
   dynamic "health_check" {
     for_each = var.health_check
