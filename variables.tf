@@ -240,3 +240,12 @@ variable "idle_timeout" {
   type        = number
   default     = 60
 }
+
+variable "condition" {
+  description = "An Access Logs block"
+  type = list(object({
+    field  = string
+    values  = list(string)
+  }))
+  default = []
+}

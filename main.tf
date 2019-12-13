@@ -202,6 +202,13 @@ resource "aws_lb_listener_rule" "this" {
     values = [
     aws_route53_record.external[0].fqdn]
   }
+  dynamic "condition" {
+    for_each = var.condition
+    content {
+      field = lookup(condition.value, "field", null )
+      values = lookup(condition.value, "values", null)
+    }
+  }
 }
 
 resource "aws_route53_record" "external" {
