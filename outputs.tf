@@ -124,6 +124,6 @@ output "alb_listener_rule_arn" {
 }
 
 output "external_fqdn" {
-  value = join("", aws_route53_record.external.fqdn)
+  value = join("", aws_route53_record.external.*.fqdn)
   description = "The FQDN created for the external record"
 }
