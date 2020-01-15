@@ -146,19 +146,19 @@ variable "internal_zone_id" {
 
 variable "fixed_response_content_type" {
   description = "The content type. Valid values are text/plain, text/css, text/html, application/javascript and application/json."
-  type        = "string"
+  type        = string
   default     = "text/plain"
 }
 
 variable "fixed_response_message_body" {
   description = "The message body."
-  type        = "string"
+  type        = string
   default     = "404 Not Found"
 }
 
 variable "fixed_response_status_code" {
   description = "The HTTP response code. Valid values are 2XX, 4XX, or 5XX."
-  type        = "string"
+  type        = string
   default     = "404"
 }
 

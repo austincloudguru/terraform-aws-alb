@@ -111,9 +111,9 @@ resource "aws_lb_listener" "http" {
     type = "fixed-response"
 
     fixed_response {
-      content_type = "${var.fixed_response_content_type}"
-      message_body = "${var.fixed_response_message_body}"
-      status_code  = "${var.fixed_response_status_code}"
+      content_type = var.fixed_response_content_type
+      message_body = var.fixed_response_message_body
+      status_code  = var.fixed_response_status_code
     }
   }
 }
