@@ -195,6 +195,7 @@ variable "health_check" {
     healthy_threshold = number
     port              = number
     protocol          = string
+    matcher           = string
   }))
   default = [{
     interval          = 60
@@ -203,6 +204,7 @@ variable "health_check" {
     healthy_threshold = 2
     port              = 80
     protocol          = "HTTP"
+    matcher           = "200"
   }]
 }
 

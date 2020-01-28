@@ -183,6 +183,7 @@ resource "aws_lb_target_group" "this" {
       healthy_threshold = lookup(health_check.value, "healthy_threshold", null)
       port              = lookup(health_check.value, "port", null)
       protocol          = lookup(health_check.value, "protocol", null)
+      matcher           = lookup(health_check.value, "matcher", null)
     }
   }
   tags = merge(
