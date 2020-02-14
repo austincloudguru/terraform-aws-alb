@@ -8,4 +8,3 @@ resource "aws_route53_record" "this" {
     zone_id                = var.alias_zone_id
   }
 }
-

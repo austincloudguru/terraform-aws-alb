@@ -1,33 +1,33 @@
 variable "name" {
   description = "The name of the target group"
-  type = string
+  type        = string
 }
 
 variable "port" {
   description = "The port on which targets receive traffic, unless overridden when registering a specific target"
-  type = string
-  default = 80
+  type        = string
+  default     = 80
 }
 
 variable "protocol" {
   description = "The protocol to use for routing traffic to the targets"
-  type = string
-  default = "HTTP"
+  type        = string
+  default     = "HTTP"
 }
 
 variable "vpc_id" {
   description = "The identifier of the VPC in which to create the target group"
-  type = string
+  type        = string
 }
 
 variable "stickiness" {
   description = " A Stickiness block"
   type = list(object({
-    type = string
+    type            = string
     cookie_duration = number
   }))
   default = [{
-    type = "lb_cookie"
+    type            = "lb_cookie"
     cookie_duration = 86400
   }]
 }
@@ -68,7 +68,7 @@ variable "listener_arn" {
 variable "host_header" {
   description = "Contains a single value item which is a list of host header patterns to match"
   type = list(object({
-     values = list(string)
+    values = list(string)
   }))
   default = []
 }
@@ -77,7 +77,7 @@ variable "http_header" {
   description = "HTTP headers to match"
   type = list(object({
     http_header_name = string
-    values = list(string)
+    values           = list(string)
 
   }))
   default = []
@@ -93,12 +93,12 @@ variable "path_pattern" {
 
 variable "attach_certificate" {
   description = "Indicate whether a new certificate needs to be attached"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "certificate_arn" {
   description = "The ARN of the certificate to attach to the listener"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }

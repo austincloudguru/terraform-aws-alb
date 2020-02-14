@@ -7,7 +7,7 @@ resource "aws_lb_target_group" "this" {
   dynamic "stickiness" {
     for_each = var.stickiness
     content {
-      type = lookup(stickiness.value, "type", null)
+      type            = lookup(stickiness.value, "type", null)
       cookie_duration = lookup(stickiness.value, "cookie_duration", null)
     }
   }
@@ -45,27 +45,27 @@ resource "aws_lb_listener_rule" "this" {
     dynamic "host_header" {
       for_each = var.host_header
       content {
-        values = lookup(host_header.value, "values", null )
+        values = lookup(host_header.value, "values", null)
       }
     }
     dynamic "http_header" {
       for_each = var.http_header
       content {
         http_header_name = lookup(http_header.value, "http_header_name", null)
-        values = lookup(http_header.value, "values", null)
+        values           = lookup(http_header.value, "values", null)
       }
     }
     dynamic "path_pattern" {
       for_each = var.path_pattern
       content {
-        values = lookup(path_pattern.value, "values", null )
+        values = lookup(path_pattern.value, "values", null)
       }
     }
   }
 }
 
 resource "aws_lb_listener_certificate" "this" {
-  count = var.attach_certificate ? 1 : 0
+  count           = var.attach_certificate ? 1 : 0
   certificate_arn = var.certificate_arn
   listener_arn    = var.listener_arn
 }
