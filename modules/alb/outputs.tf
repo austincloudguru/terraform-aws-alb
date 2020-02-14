@@ -29,6 +29,6 @@ output "alb_dns_name" {
 }
 
 output "alb_zone_id" {
-  description = "The canonical hosted zone ID of the load balancer."
+  description = "The canonical hosted zone ID of the load balancer"
   value       = element(concat(aws_lb.this.*.zone_id, [""]), 0)
 }

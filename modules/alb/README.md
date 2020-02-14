@@ -1,5 +1,5 @@
 # alb
-Creates an ALB.
+This module creates an ALB and a security group with no ingress and and egress to [0.0.0.0/0] (default).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Providers

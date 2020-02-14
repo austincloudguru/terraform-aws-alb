@@ -1,11 +1,11 @@
 variable "name" {
-  description = "The name of the LB."
+  description = "The name of the LB"
   type        = string
   default     = ""
 }
 
 variable "vpc_id" {
-  description = "The VPC ID."
+  description = "The VPC ID"
   type        = string
   default     = ""
 }
@@ -29,13 +29,13 @@ variable "enable_deletion_protection" {
 }
 
 variable "subnets" {
-  description = "A list of subnet IDs to attach to the LB."
+  description = "A list of subnet IDs to attach to the LB"
   type        = list(string)
   default     = []
 }
 
 variable "idle_timeout" {
-  description = "The time in seconds that the connection is allowed to be idle. "
+  description = "The time in seconds that the connection is allowed to be idle"
   type        = number
   default     = 60
 }

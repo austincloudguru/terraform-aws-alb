@@ -1,27 +1,27 @@
 variable "name" {
-  description = "The name of the target group."
+  description = "The name of the target group"
   type = string
 }
 
 variable "port" {
-  description = "The port on which targets receive traffic, unless overridden when registering a specific target."
+  description = "The port on which targets receive traffic, unless overridden when registering a specific target"
   type = string
   default = 80
 }
 
 variable "protocol" {
-  description = "The protocol to use for routing traffic to the targets."
+  description = "The protocol to use for routing traffic to the targets"
   type = string
   default = "HTTP"
 }
 
 variable "vpc_id" {
-  description = "The identifier of the VPC in which to create the target group."
+  description = "The identifier of the VPC in which to create the target group"
   type = string
 }
 
 variable "stickiness" {
-  description = " A Stickiness block."
+  description = " A Stickiness block"
   type = list(object({
     type = string
     cookie_duration = number
@@ -61,12 +61,12 @@ variable "tags" {
 }
 
 variable "listener_arn" {
-  description = "The ARN of the listener to which to attach the rule."
+  description = "The ARN of the listener to which to attach the rule"
   type        = string
 }
 
 variable "host_header" {
-  description = "Contains a single value item which is a list of host header patterns to match."
+  description = "Contains a single value item which is a list of host header patterns to match"
   type = list(object({
      values = list(string)
   }))
@@ -74,7 +74,7 @@ variable "host_header" {
 }
 
 variable "http_header" {
-  description = "HTTP headers to match."
+  description = "HTTP headers to match"
   type = list(object({
     http_header_name = string
     values = list(string)
@@ -84,7 +84,7 @@ variable "http_header" {
 }
 
 variable "path_pattern" {
-  description = "Contains a single value item which is a list of path patterns to match against the request URL."
+  description = "Contains a single value item which is a list of path patterns to match against the request URL"
   type = list(object({
     values = list(string)
   }))
@@ -98,7 +98,7 @@ variable "attach_certificate" {
 }
 
 variable "certificate_arn" {
-  description = "The ARN of the certificate to attach to the listener."
+  description = "The ARN of the certificate to attach to the listener"
   type = string
   default = ""
 }

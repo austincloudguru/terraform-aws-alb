@@ -1,5 +1,5 @@
 # acm-certificate
-Creates an ACM Certificate
+This module creates an ACM certificate and the necessary DNS records to Validate it.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

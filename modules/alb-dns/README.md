@@ -1,5 +1,5 @@
 # alb-dns
-Creates an ALB listener
+This module creates an DNS alias record.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
