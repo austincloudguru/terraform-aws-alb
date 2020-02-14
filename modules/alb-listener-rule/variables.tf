@@ -83,18 +83,13 @@ variable "http_header" {
   default = []
 }
 
-//variable "condition" {
-//  description = "An Access Logs block"
-//  type = list(object({
-//    host_header = list(string)
-//    http_header = list(object)
-//    http_request_method = list(string)
-//    path_pattern = list(string)
-//    query_string = list(object)
-//    source_ip = list(string)
-//  }))
-//  default = []
-//}
+variable "path_pattern" {
+  description = "Contains a single value item which is a list of path patterns to match against the request URL."
+  type = list(object({
+    values = list(string)
+  }))
+  default = []
+}
 
 variable "certificate_arn" {
   description = "The ARN of the certificate to attach to the listener."

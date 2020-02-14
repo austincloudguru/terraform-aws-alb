@@ -55,6 +55,12 @@ resource "aws_lb_listener_rule" "this" {
         values = lookup(http_header.value, "values", null)
       }
     }
+    dynamic "path_pattern" {
+      for_each = var.path_pattern
+      content {
+        values = lookup(path_pattern.value, "values", null )
+      }
+    }
   }
 }
 
