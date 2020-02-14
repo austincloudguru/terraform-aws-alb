@@ -20,6 +20,6 @@ resource "aws_security_group_rule" "this" {
   security_group_id = var.security_group_id
   type = "ingress"
   from_port = var.port
-  protocol = 'tcp'
+  protocol = "tcp"
   to_port = var.port
 }
