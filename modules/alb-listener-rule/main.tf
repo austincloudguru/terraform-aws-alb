@@ -41,18 +41,19 @@ resource "aws_lb_listener_rule" "this" {
     target_group_arn = aws_lb_target_group.this.arn
   }
 
-  dynamic "condition" {
-    for_each = var.host_header
-    content {
-      host_header = lookup(condition.value, "host_header", null )
+  condition {
+    dynamic "host_header" {
+      for_each = var.host_header
+      content {
+        values = lookup(host_header.value, "values", null )
+      }
     }
-  }
-
-   dynamic "condition" {
-    for_each = var.http_header
-    content {
-      http_header_name = lookup(condition.value, "http_header_name", null)
-      values = lookup(condition.value, "values", null)
+    dynamic "http_header" {
+      for_each = var.http_header
+      content {
+        http_header_name = lookup(http_header.value, "http_header_name", null)
+        values = lookup(http_header.value, "values", null)
+      }
     }
   }
 }

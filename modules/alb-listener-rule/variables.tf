@@ -76,7 +76,6 @@ variable "host_header" {
 variable "http_header" {
   description = "HTTP headers to match."
   type = list(object({
-    http_header_name = string
     values = list(string)
   }))
   default = []
