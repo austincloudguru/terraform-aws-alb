@@ -27,7 +27,7 @@ variable "stickiness" {
     cookie_duration = number
   }))
   default = [{
-    type = lb_cookie
+    type = "lb_cookie"
     cookie_duration = 86400
   }]
 }

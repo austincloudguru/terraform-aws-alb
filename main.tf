@@ -1,68 +1,4 @@
 //#------------------------------------------------------------------------------
-//# Create the HTTPS listener if requested
-//#------------------------------------------------------------------------------
-//resource "aws_acm_certificate" "default_cert" {
-//  count             = var.create_https_listener ? 1 : 0
-//  domain_name       = "${var.alb_name}.${var.tld}"
-//  validation_method = "DNS"
-//}
-//
-//resource "aws_route53_record" "default_cert_validation_record" {
-//  count   = var.create_https_listener ? 1 : 0
-//  name    = aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_name
-//  type    = aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_type
-//  zone_id = var.external_zone_id
-//  records = [aws_acm_certificate.default_cert[0].domain_validation_options.0.resource_record_value]
-//  ttl     = 60
-//}
-//
-//resource "aws_acm_certificate_validation" "default_validation" {
-//  count                   = var.create_https_listener ? 1 : 0
-//  certificate_arn         = aws_acm_certificate.default_cert[0].arn
-//  validation_record_fqdns = [aws_route53_record.default_cert_validation_record[0].fqdn]
-//}
-//
-//resource "aws_lb_listener" "https" {
-//  count             = var.create_https_listener ? 1 : 0
-//  load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
-//  port              = var.https_listener_port
-//  protocol          = "HTTPS"
-//  ssl_policy        = var.ssl_policy
-//  certificate_arn   = aws_acm_certificate.default_cert[0].arn
-//
-//  default_action {
-//    type = "fixed-response"
-//
-//    fixed_response {
-//      content_type = var.fixed_response_content_type
-//      message_body = var.fixed_response_message_body
-//      status_code  = var.fixed_response_status_code
-//    }
-//  }
-//}
-//
-//#------------------------------------------------------------------------------
-//# Create the HTTP listener
-//#------------------------------------------------------------------------------
-//resource "aws_lb_listener" "http" {
-//  count = var.create_http_listener ? 1 : 0
-//
-//  load_balancer_arn = var.create_alb ? aws_lb.this[0].arn : var.load_balancer_arn
-//  port              = var.http_listener_port
-//  protocol          = "HTTP"
-//
-//  default_action {
-//    type = "fixed-response"
-//
-//    fixed_response {
-//      content_type = var.fixed_response_content_type
-//      message_body = var.fixed_response_message_body
-//      status_code  = var.fixed_response_status_code
-//    }
-//  }
-//}
-//
-//#------------------------------------------------------------------------------
 //# Create HTTP to HTTPS Redirect
 //#------------------------------------------------------------------------------
 //resource "aws_lb_listener" "redirect_http_to_https" {
@@ -86,28 +22,6 @@
 //#------------------------------------------------------------------------------
 //#  Create Listener Rules
 //#------------------------------------------------------------------------------
-//resource "aws_acm_certificate" "this_cert" {
-//  count       = var.create_ssl_cert ? 1 : 0
-//  domain_name = join(".", [var.service_name, var.tld])
-//  //domain_name       = "${var.service_name}.${var.tld}"
-//  validation_method = "DNS"
-//}
-//
-//resource "aws_route53_record" "this_cert_validation_record" {
-//  count   = var.create_ssl_cert ? 1 : 0
-//  name    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_name
-//  type    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_type
-//  zone_id = var.external_zone_id
-//  records = [aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_value]
-//  ttl     = 60
-//}
-//
-//resource "aws_acm_certificate_validation" "this_validation" {
-//  count                   = var.create_ssl_cert ? 1 : 0
-//  certificate_arn         = aws_acm_certificate.this_cert[0].arn
-//  validation_record_fqdns = [aws_route53_record.this_cert_validation_record[0].fqdn]
-//}
-//
 //resource "aws_lb_target_group" "this" {
 //  count    = var.create_listener_rule ? 1 : 0
 //  name     = var.service_name
