@@ -91,6 +91,12 @@ variable "path_pattern" {
   default = []
 }
 
+variable "attach_certificate" {
+  description = "Indicate whether a new certificate needs to be attached"
+  type = bool
+  default = false
+}
+
 variable "certificate_arn" {
   description = "The ARN of the certificate to attach to the listener."
   type = string

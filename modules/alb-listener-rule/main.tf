@@ -65,7 +65,7 @@ resource "aws_lb_listener_rule" "this" {
 }
 
 resource "aws_lb_listener_certificate" "this" {
-  count = var.certificate_arn != "" ? 1 : 0
+  count = var.attach_certificate ? 1 : 0
   certificate_arn = var.certificate_arn
   listener_arn    = var.listener_arn
 }
