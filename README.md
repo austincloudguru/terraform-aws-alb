@@ -1,9 +1,5 @@
 # AWS Application Load Balancer Module
-This 
-
-
-
-
+A set of Terraform modules for working with an AWS Application Load Balancer (ALB).
 
 # Usage
 `alb`:
@@ -58,7 +54,7 @@ module "https-listener" {
 module "my_app_listener_rule" {
   source             = "AustinCloudGuru/alb/aws//module/alb-listener-rule"
   version            = 1.0.0
-  name               = join("", [var.name, "-tg"])
+  name               = "my-app-tg"
   port               = "443"
   protocol           = "HTTPS"
   vpc_id             = "vpc-11111111111111111"
@@ -82,7 +78,7 @@ module "my_app_listener_rule" {
 
 `alb-dns`:
 ```hcl
-module "irisk_internal_dns" {
+module "my_app_externall_dns" {
   source        = "AustinCloudGuru/alb/aws//module/alb-dns"
   version       = 1.0.0
   name          = "my-app.austincloud.guru"
