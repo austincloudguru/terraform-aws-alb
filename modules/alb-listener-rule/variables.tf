@@ -68,7 +68,7 @@ variable "listener_arn" {
 variable "host_header" {
   description = "Contains a single value item which is a list of host header patterns to match."
   type = list(object({
-     host_header = list(string)
+     values = list(string)
   }))
   default = []
 }
@@ -76,7 +76,9 @@ variable "host_header" {
 variable "http_header" {
   description = "HTTP headers to match."
   type = list(object({
+    http_header_name = string
     values = list(string)
+
   }))
   default = []
 }
