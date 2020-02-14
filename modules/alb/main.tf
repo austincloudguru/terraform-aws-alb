@@ -1,6 +1,6 @@
 resource "aws_security_group" "this" {
-  name        = var.name
-  description = join("", [var.name, " ALB SG"])
+  name        = join("", [var.name, "-alb"])
+  description = join(" ", ["Security Group for", var.name, "ALB"])
   vpc_id      = var.vpc_id
   tags = merge(
     {
