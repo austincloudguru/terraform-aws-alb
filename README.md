@@ -6,7 +6,7 @@ A set of Terraform modules for working with an AWS Application Load Balancer (AL
 ```hcl
 module "alb" {
   source                     = "AustinCloudGuru/alb/aws//module/alb"
-  version                    = "1.0.1"
+  version                    = "1.0.2"
   name                       = "production"
   vpc_id                     = "vpc-11111111111111111"
   subnets                    = ["subnet-00000000000000000", "subnet-11111111111111111", "subnet-22222222222222222"]
@@ -28,7 +28,7 @@ module "alb" {
 ```hcl
 module "prod-certificate" {
   source      = "AustinCloudGuru/alb/aws//modules/alb-certificate"
-  version     = "1.0.1"
+  version     = "1.0.2"
   domain_name = prod.austincloud.guru
   zone_id     = "Z2222222222222"
 }
@@ -38,7 +38,7 @@ module "prod-certificate" {
 ```hcl
 module "https-listener" {
   source            = "AustinCloudGuru/alb/aws//modules/alb-listener"
-  version           = "1.0.1"
+  version           = "1.0.2"
   load_balancer_arn = module.alb.alb_arn
   security_group_id = module.alb.security_group_id
   cidr_blocks       = ["0.0.0.0/0"]
@@ -53,7 +53,7 @@ module "https-listener" {
 ```hcl
 module "my_app_listener_rule" {
   source             = "AustinCloudGuru/alb/aws//modules/alb-listener-rule"
-  version            = "1.0.1"
+  version            = "1.0.2"
   name               = "my-app-tg"
   port               = "443"
   protocol           = "HTTPS"
@@ -80,7 +80,7 @@ module "my_app_listener_rule" {
 ```hcl
 module "my_app_externall_dns" {
   source        = "AustinCloudGuru/alb/aws//modules/alb-dns"
-  version       = "1.0.1"
+  version       = "1.0.2"
   name          = "my-app.austincloud.guru"
   zone_id       = Z1111111111111
   alias_name    = module.alb.alb_dns_name
