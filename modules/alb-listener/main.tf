@@ -22,4 +22,5 @@ resource "aws_security_group_rule" "this" {
   from_port = var.port
   protocol = "tcp"
   to_port = var.port
+  cidr_blocks = var.cidr_blocks
 }

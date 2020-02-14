@@ -44,7 +44,15 @@ variable "status_code" {
   type        = string
   default     = "404"
 }
+
 variable "security_group_id" {
   description = "The security group to apply this rule to."
   type = string
 }
+
+variable "cidr_blocks" {
+  description = "List of CIDR blocks."
+  type = list(string)
+  default = ["0.0.0.0/0"]
+}
+
