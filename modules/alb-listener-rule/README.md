@@ -2,6 +2,13 @@
 This module create a target group and an ALB listener rule for an already existing listener.  It currently support host_header, http_header, and path_pattern conditions.  It can also attach an additional ACM certificate if the rule needs it.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | ~> 0.12.6 |
+| aws | ~> 2.23 |
+
 ## Providers
 
 | Name | Version |
@@ -11,7 +18,7 @@ This module create a target group and an ALB listener rule for an already existi
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | attach\_certificate | Indicate whether a new certificate needs to be attached | `bool` | `false` | no |
 | certificate\_arn | The ARN of the certificate to attach to the listener | `string` | `""` | no |
 | health\_check | Listener Rule Health Check | <pre>list(object({<br>    interval          = number<br>    path              = string<br>    timeout           = number<br>    healthy_threshold = number<br>    port              = number<br>    protocol          = string<br>    matcher           = string<br>  }))</pre> | <pre>[<br>  {<br>    "healthy_threshold": 2,<br>    "interval": 60,<br>    "matcher": "200",<br>    "path": "/",<br>    "port": 80,<br>    "protocol": "HTTP",<br>    "timeout": 5<br>  }<br>]</pre> | no |
