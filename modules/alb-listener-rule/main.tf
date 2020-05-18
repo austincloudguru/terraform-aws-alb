@@ -41,27 +41,34 @@ resource "aws_lb_listener_rule" "this" {
     target_group_arn = aws_lb_target_group.this.arn
   }
 
-  condition {
-    dynamic "host_header" {
-      for_each = var.host_header
-      content {
-        values = lookup(host_header.value, "values", null)
-      }
-    }
-    dynamic "http_header" {
-      for_each = var.http_header
-      content {
-        http_header_name = lookup(http_header.value, "http_header_name", null)
-        values           = lookup(http_header.value, "values", null)
-      }
-    }
-    dynamic "path_pattern" {
-      for_each = var.path_pattern
-      content {
-        values = lookup(path_pattern.value, "values", null)
+  dynamic "condition" {
+    for_each = var.host_header
+    content {
+      host_header {
+        values = lookup(condition.value, "values", null)
       }
     }
   }
+
+  dynamic "condition" {
+    for_each = var.http_header
+    content {
+      http_header {
+        http_header_name = lookup(condition.value, "http_header_name", null)
+        values           = lookup(condition.value, "values", null)
+      }
+    }
+  }
+
+  dynamic "condition" {
+    for_each = var.path_pattern
+    content {
+      path_pattern {
+        values = lookup(condition.value, "values", null)
+      }
+    }
+  }
+
 }
 
 resource "aws_lb_listener_certificate" "this" {

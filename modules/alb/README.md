@@ -2,6 +2,13 @@
 This module creates an ALB and a security group with no ingress and and egress to [0.0.0.0/0] (default).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | ~> 0.12.6 |
+| aws | ~> 2.23 |
+
 ## Providers
 
 | Name | Version |
@@ -11,7 +18,7 @@ This module creates an ALB and a security group with no ingress and and egress t
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | access\_logs | An Access Logs block | <pre>list(object({<br>    bucket  = string<br>    prefix  = string<br>    enabled = number<br>  }))</pre> | `[]` | no |
 | enable\_deletion\_protection | If true, deletion of the load balancer will be disabled via the AWS API | `bool` | `false` | no |
 | idle\_timeout | The time in seconds that the connection is allowed to be idle | `number` | `60` | no |

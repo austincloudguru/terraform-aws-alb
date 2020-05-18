@@ -2,6 +2,13 @@
 This module creates an DNS alias record.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | ~> 0.12.6 |
+| aws | ~> 2.23 |
+
 ## Providers
 
 | Name | Version |
@@ -11,7 +18,7 @@ This module creates an DNS alias record.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | alias\_name | DNS domain name for a CloudFront distribution, S3 bucket, ELB, or another resource record set in this hosted zone | `string` | n/a | yes |
 | alias\_zone\_id | Hosted zone ID for a CloudFront distribution, S3 bucket, ELB, or Route 53 hosted zone | `string` | n/a | yes |
 | name | The name of the record | `string` | n/a | yes |
