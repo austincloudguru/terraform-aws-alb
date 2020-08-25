@@ -6,14 +6,14 @@ This module creates an ALB and a security group with no ingress and and egress t
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12.6 |
-| aws | ~> 2.23 |
+| terraform | >= 0.12.6, < 0.14 |
+| aws | ~>3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.23 |
+| aws | ~>3.0 |
 
 ## Inputs
 
