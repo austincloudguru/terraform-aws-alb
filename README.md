@@ -1,6 +1,10 @@
 # AWS Application Load Balancer Module
 A set of Terraform modules for working with an AWS Application Load Balancer (ALB).
 
+Due to changes in the ACM module, you will have to choose the right tag based on your provider version.
+* Version >= 1.1.0 supports AWS Provider ~>3.0
+* Version <= 1.0.3 supports AWS Provider ~>2.49
+
 # Usage
 `alb`:
 ```hcl
