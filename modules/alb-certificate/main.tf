@@ -12,11 +12,11 @@ resource "aws_route53_record" "this" {
     }
   }
   allow_overwrite = true
-  name    = each.value.name
-  type    = each.value.type
-  records = [each.value.record]
-  zone_id = var.zone_id
-  ttl     = 60
+  name            = each.value.name
+  type            = each.value.type
+  records         = [each.value.record]
+  zone_id         = var.zone_id
+  ttl             = 60
 }
 
 resource "aws_acm_certificate_validation" "this" {
