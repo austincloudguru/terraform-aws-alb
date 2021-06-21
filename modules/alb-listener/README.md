@@ -6,7 +6,7 @@ This module creates an ALB listener with a default action that returns a fixed r
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.6, < 0.16 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.6, < 1.1 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~>3.0 |
 
 ## Providers
