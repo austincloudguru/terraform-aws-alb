@@ -3,7 +3,6 @@ package test
 import (
 	"testing"
 	"fmt"
-	"os"
 	"time"
   http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/aws"
