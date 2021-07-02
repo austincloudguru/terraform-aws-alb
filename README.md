@@ -1,5 +1,7 @@
 # AWS Application Load Balancer Module
-[![CI](https://github.com/austincloudguru/terraform-aws-alb/workflows/CI/badge.svg?event=push)](https://github.com/austincloudguru/terraform-aws-alb/actions?query=workflow%3ACI)
+[![Terratest](https://github.com/austincloudguru/terraform-aws-alb/workflows/Terratest/badge.svg?event=push)](https://github.com/austincloudguru/terraform-aws-alb/actions?query=workflow%3ATerratest)
+![Latest Version](https://img.shields.io/github/v/tag/austincloudguru/terraform-aws-alb?sort=semver&label=Latest%20Version)
+[![License](https://img.shields.io/github/license/austincloudguru/terraform-aws-alb)](https://github.com/austincloudguru/terraform-aws-alb/blob/master/LICENSE)
 
 A set of Terraform modules for working with an AWS Application Load Balancer (ALB).
 
