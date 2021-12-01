@@ -58,7 +58,7 @@ resource "aws_lb" "this" {
 # Create the HTTPS listener if requested
 #------------------------------------------------------------------------------
 resource "aws_acm_certificate" "default_cert" {
-  domain_name       = var.domain_name
+  domain_name       = "${var.alb_name}.${var.tld}"
   validation_method = "DNS"
 }
 
