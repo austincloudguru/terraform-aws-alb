@@ -74,7 +74,7 @@ resource "aws_route53_record" "default_cert_validation_record" {
   name            = each.value.name
   type            = each.value.type
   records         = [each.value.record]
-  zone_id         = var.zone_id
+  zone_id         = var.external_zone_id
   ttl             = 60
 }
 
@@ -186,7 +186,7 @@ resource "aws_route53_record" "this_cert_validation_record" {
   name            = each.value.name
   type            = each.value.type
   records         = [each.value.record]
-  zone_id         = var.zone_id
+  zone_id         = var.external_zone_id
   ttl             = 60
 }
 
