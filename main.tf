@@ -255,18 +255,25 @@ resource "aws_lb_listener_rule" "this" {
     target_group_arn = aws_lb_target_group.this[0].arn
   }
   condition {
-    field = "host-header"
-    values = [
-    var.create_external_r53 ? aws_route53_record.external[0].fqdn : var.external_fqdn
-    ]
-  }
-  dynamic "condition" {
-    for_each = var.condition
-    content {
-      field = lookup(condition.value, "field", null )
-      values = lookup(condition.value, "values", null)
+    host_header {
+      values = [
+      var.create_external_r53 ? aws_route53_record.external[0].fqdn : var.external_fqdn
+      ]
     }
   }
+  #condition {
+    #field = "host-header"
+    #values = [
+    #var.create_external_r53 ? aws_route53_record.external[0].fqdn : var.external_fqdn
+    #]
+  #}
+  #dynamic "condition" {
+    #for_each = var.condition
+    #content {
+      #field = lookup(condition.value, "field", null )
+      #values = lookup(condition.value, "values", null)
+    #}
+  #}
 }
 
 resource "aws_route53_record" "external" {
