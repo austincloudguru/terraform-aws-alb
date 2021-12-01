@@ -80,7 +80,7 @@ resource "aws_route53_record" "default_cert_validation_record" {
 
 resource "aws_acm_certificate_validation" "default_validation" {
   certificate_arn         = aws_acm_certificate.default_cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.default_vert_validation_record : record.fqdn]
 }
 
 
@@ -111,7 +111,7 @@ resource "aws_lb_listener" "https" {
   port              = var.https_listener_port
   protocol          = "HTTPS"
   ssl_policy        = var.ssl_policy
-  certificate_arn   = aws_acm_certificate.default_cert[0].arn
+  certificate_arn   = aws_acm_certificate.default_cert.arn
 
   default_action {
     type = "fixed-response"
@@ -192,7 +192,7 @@ resource "aws_route53_record" "this_cert_validation_record" {
 
 resource "aws_acm_certificate_validation" "this_validation" {
   certificate_arn         = aws_acm_certificate.this_cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.this_cert_validation_record : record.fqdn] 
 }
 
 #resource "aws_acm_certificate" "this_cert" {
