@@ -64,7 +64,7 @@ resource "aws_acm_certificate" "default_cert" {
 
 resource "aws_route53_record" "default_cert_validation_record" {
   for_each = {
-    for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.default_cert.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -79,7 +79,7 @@ resource "aws_route53_record" "default_cert_validation_record" {
 }
 
 resource "aws_acm_certificate_validation" "default_validation" {
-  certificate_arn         = aws_acm_certificate.this.arn
+  certificate_arn         = aws_acm_certificate.default_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }
 
@@ -176,7 +176,7 @@ resource "aws_acm_certificate" "this_cert" {
 
 resource "aws_route53_record" "this_cert_validation_record" {
   for_each = {
-    for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.this_cert.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -191,7 +191,7 @@ resource "aws_route53_record" "this_cert_validation_record" {
 }
 
 resource "aws_acm_certificate_validation" "this_validation" {
-  certificate_arn         = aws_acm_certificate.this.arn
+  certificate_arn         = aws_acm_certificate.this_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }
 
