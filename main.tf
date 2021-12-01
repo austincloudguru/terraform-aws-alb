@@ -142,27 +142,54 @@ resource "aws_lb_listener" "redirect_http_to_https" {
 #------------------------------------------------------------------------------
 #  Create Listener Rules
 #------------------------------------------------------------------------------
-resource "aws_acm_certificate" "this_cert" {
-  count       = var.create_ssl_cert ? 1 : 0
-  domain_name = join(".", [var.service_name, var.tld])
-  //domain_name       = "${var.service_name}.${var.tld}"
+resource "aws_acm_certificate" "this" {
+  #domain_name       = var.domain_name
+  domain_name       = join(".", [var.service_name, var.tld])
   validation_method = "DNS"
 }
 
-resource "aws_route53_record" "this_cert_validation_record" {
-  count   = var.create_ssl_cert ? 1 : 0
-  name    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_name
-  type    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_type
-  zone_id = var.external_zone_id
-  records = [aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_value]
-  ttl     = 60
+resource "aws_route53_record" "this" {
+  for_each = {
+    for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+  allow_overwrite = true
+  name            = each.value.name
+  type            = each.value.type
+  records         = [each.value.record]
+  zone_id         = var.zone_id
+  ttl             = 60
 }
 
-resource "aws_acm_certificate_validation" "this_validation" {
-  count                   = var.create_ssl_cert ? 1 : 0
-  certificate_arn         = aws_acm_certificate.this_cert[0].arn
-  validation_record_fqdns = [aws_route53_record.this_cert_validation_record[0].fqdn]
+resource "aws_acm_certificate_validation" "this" {
+  certificate_arn         = aws_acm_certificate.this.arn
+  validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }
+
+#resource "aws_acm_certificate" "this_cert" {
+  #count       = var.create_ssl_cert ? 1 : 0
+  #domain_name = join(".", [var.service_name, var.tld])
+  #//domain_name       = "${var.service_name}.${var.tld}"
+  #validation_method = "DNS"
+#}
+#
+#resource "aws_route53_record" "this_cert_validation_record" {
+  #count   = var.create_ssl_cert ? 1 : 0
+  #name    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_name
+  #type    = aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_type
+  #zone_id = var.external_zone_id
+  #records = [aws_acm_certificate.this_cert[0].domain_validation_options.0.resource_record_value]
+  #ttl     = 60
+#}
+#
+#resource "aws_acm_certificate_validation" "this_validation" {
+  #count                   = var.create_ssl_cert ? 1 : 0
+  #certificate_arn         = aws_acm_certificate.this_cert[0].arn
+  #validation_record_fqdns = [aws_route53_record.this_cert_validation_record[0].fqdn]
+#}
 
 resource "aws_lb_target_group" "this" {
   count    = var.create_listener_rule ? 1 : 0
