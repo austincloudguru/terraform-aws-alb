@@ -6,7 +6,7 @@ This module creates an ALB and a security group with no ingress and and egress t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.6, < 1.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.6, < 1.2 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~>3.0 |
 
 ## Providers
