@@ -25,7 +25,7 @@ func TestExamplesTerraform(t *testing.T) {
 
   // Verify that the certs 
   tfCertArn := terraform.Output(t, terraformOpts, "certificate_arn")
-  awsCertArn := aws.GetAcmCertificateArn(t, "us-west-2", "terratest.austincloud.net")
+  awsCertArn := aws.GetAcmCertificateArn(t, "us-west-2", "terratest.acgcloudworks.net")
   assert.Equal(t, awsCertArn, tfCertArn)
 
    // Verify that the domain returns the default 404

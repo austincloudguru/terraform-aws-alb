@@ -49,3 +49,9 @@ variable "access_logs" {
   }))
   default = []
 }
+
+variable "sg_description" {
+  type        = string
+  description = "Description of the rule"
+  default     = ""
+}
