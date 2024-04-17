@@ -55,3 +55,9 @@ variable "cidr_blocks" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+variable "sg_description" {
+  type        = string
+  description = "Description of the rule"
+  default     = ""
+}

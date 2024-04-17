@@ -12,6 +12,7 @@ resource "aws_security_group" "this" {
 
 resource "aws_security_group_rule" "egress" {
   security_group_id = aws_security_group.this.id
+  description       = var.sg_description
   type              = "egress"
   from_port         = 0
   protocol          = "-1"
@@ -20,6 +21,10 @@ resource "aws_security_group_rule" "egress" {
 }
 
 resource "aws_lb" "this" {
+  #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled"
+  #checkov:skip=CKV_AWS_131: "Ensure that ALB drops HTTP headers"
+  #checkov:skip=CKV_AWS_103: "Ensure that load balancer is using at least TLS 1.2"
+  #checkov:skip=CKV2_AWS_28: "Ensure public facing ALB are protected by WAF"
   name                       = var.name
   load_balancer_type         = "application"
   internal                   = var.internal

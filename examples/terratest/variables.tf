@@ -7,7 +7,7 @@ variable "region" {
 variable "tld" {
   description = "Top Level Domain"
   type        = string
-  default     = "austincloud.net"
+  default     = "acgcloudworks.net"
 }
 
 variable "tags" {
